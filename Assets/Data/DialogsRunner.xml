@@ -1,0 +1,30 @@
+<dialogs>
+<dialog id ="0" name="Bill">
+			<textNPC>
+				Ты урод!!!
+			</textNPC>
+		<choise gotoID="1">
+			Нет ты урод!!!
+		</choise>
+		<choise theEnd ="true">
+			Пошёл ты!!!
+		</choise>
+		<choise theEnd ="true">
+			Ладно...
+		</choise>
+</dialog>
+<dialog id ="1" name="Bill">
+	<textNPC>
+		Как ты меня назвал!?!?
+	</textNPC>
+	<choise theEnd ="true">
+		Урод!!!
+	</choise>
+	<choise theEnd ="true">
+		Пошёл ты!!!
+	</choise>
+	<choise theEnd ="true">
+		Ладно...
+	</choise>
+</dialog>
+</dialogs>
