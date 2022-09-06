@@ -13,13 +13,7 @@ public class TestTEXT : MonoBehaviour
     void Start()
     {
         tmps = new List<TextMeshProUGUI>();
-        for (int i = 0; i <= length; i++)
-        {
-            if (i == 0)
-                tmps.Add(Instantiate<TextMeshProUGUI>(gameobjecttmp, new Vector3(transform.position.x, transform.position.y + step, transform.position.z), Quaternion.identity, transform));
-            else
-                tmps.Add(Instantiate<TextMeshProUGUI>(gameobjecttmp, new Vector3(tmps[i - 1].transform.position.x, tmps[i - 1].transform.position.y + step, tmps[i - 1].transform.position.z), Quaternion.identity, transform));
-        }
+       
     }
     void Selection() // рассчёт значение селекта
     {
@@ -40,6 +34,16 @@ public class TestTEXT : MonoBehaviour
 
         if (selected != selecredprevios)//debug
             print(selected);
+    }
+    void CreateTextChoise()
+    {
+        for (int i = 0; i <= length; i++)
+        {
+            if (i == 0)
+                tmps.Add(Instantiate<TextMeshProUGUI>(gameobjecttmp, new Vector3(transform.position.x, transform.position.y + step, transform.position.z), Quaternion.identity, transform));
+            else
+                tmps.Add(Instantiate<TextMeshProUGUI>(gameobjecttmp, new Vector3(tmps[i - 1].transform.position.x, tmps[i - 1].transform.position.y + step, tmps[i - 1].transform.position.z), Quaternion.identity, transform));
+        }
     }
     void SelectionChange() // отоброжение селекта
     {

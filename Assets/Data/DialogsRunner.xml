@@ -18,13 +18,13 @@
 		Как ты меня назвал!?!?
 	</textNPC>
 	<choise theEnd ="true">
-		Урод!!!
+		Как чмо!!!
 	</choise>
 	<choise theEnd ="true">
-		Пошёл ты!!!
+		Извиняюсь!!!
 	</choise>
 	<choise theEnd ="true">
-		Ладно...
+		Лохом
 	</choise>
 </dialog>
 </dialogs>
