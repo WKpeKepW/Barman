@@ -7,30 +7,19 @@ using UnityEngine.AI;
 public class DialogsRuner : MonoBehaviour
 {
     enum StatePositon { enterBar, goBarTable, atTheBarTable, exitTheBar }
-    StatePositon statePositon; // мен€тьс€
-    int nuberPositon = 0; // целева€ позици€
+    StatePositon statePositon; // мен€тьс€ // целева€ позици€
     dialogs dialogs; // говорить
     NavMeshAgent client; //ходить
-    Transform canvasTransform, cameraTransform; //диалоговое окно всегда смотрит на камеру
     TextMeshProUGUI textMesh; // показывать над клиентом
-    public TextMeshProUGUI gameobjecttmp;// пример обьекта текста дл€ создани€ других текстов
-    List<TextMeshProUGUI> tmps;// лист выборов
-    Transform originForChoises;
-    public List<GameObject> positions; // список возможных положений 
     public float fixDistantstoTheTarget = 1.06f;// минимальное рассто€ние до цели
-    int selected, selecredprevios = 0;// выбор вариантов
-    public float step = 50f;
-    bool ableToSelect = false;
-    int lengthforSelection = 0;
+    ChoiseSelect ChoiseSelect;
+    RandomPlace rp;
     void Start()
     {
-        tmps = new List<TextMeshProUGUI>();//лист выбора
-        originForChoises = GameObject.FindGameObjectWithTag("Origin").GetComponent<Transform>();
+        ChoiseSelect = GameObject.FindGameObjectWithTag("Origin").GetComponent<ChoiseSelect>();
+        rp = new RandomPlace();
         dialogs = XmlDialogsReader.LoadXMLData("DialogsRunner");//прочитываем файл DialogsRunner
-        positions = new List<GameObject>(GameObject.FindGameObjectsWithTag("Target"));//лист обьектов
         client = GetComponent<NavMeshAgent>();//навигаци€ клиента
-        canvasTransform = transform.GetChild(0);
-        cameraTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
         textMesh = transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();//получение ссылки на текст дл€ клиента
         statePositon = StatePositon.enterBar;
     }
@@ -39,23 +28,17 @@ public class DialogsRuner : MonoBehaviour
     void Update()
     {
         TargetMove();
-        Selection();
-    }
-
-    void LateUpdate()
-    {
-        canvasLockAt();
     }
 
     void TargetMove()
     {
-        client.SetDestination(positions[nuberPositon].transform.position); // идти до места 
-        if (Vector3.Distance(transform.position, positions[nuberPositon].transform.position) < fixDistantstoTheTarget)
+        client.SetDestination(rp.positions[rp.nuberPositon].transform.position); // идти до места 
+        if (Vector3.Distance(transform.position, rp.positions[rp.nuberPositon].transform.position) < fixDistantstoTheTarget)
         {
             if (statePositon == StatePositon.enterBar) // при позиции 1 он сначало идЄт к нему а потом к другой позиции
             {
                 statePositon = StatePositon.goBarTable;
-                RandomEmptyPosition(1, 4);
+                rp.RandomEmptyPosition(1, 4);
             }
             else if (statePositon == StatePositon.goBarTable)
             {
@@ -65,113 +48,94 @@ public class DialogsRuner : MonoBehaviour
             }
             else if (statePositon == StatePositon.exitTheBar)
             {
-                nuberPositon = 0;
+                rp.nuberPositon = 0;
             }
         }
     }
-    void RandomEmptyPosition(int firstMayTargetID, int endMayTargetID)
-    {
-        List<int> id = new List<int>();
-        for (int i = firstMayTargetID; i <= endMayTargetID; i++)
-        {
-            if (positions[i].GetComponent<TargetEmpty>().IsEmpty)
-            {
-                id.Add(i);
-            }
-        }
-        int randPosition;
-        if (id.Count != 1)
-            randPosition = Random.Range(id[0], id.Count);  //„то то не так с рандомом
-        else
-            randPosition = id[0];
-        nuberPositon = randPosition; //positions.IndexOf(positions[randPosition]);
-        positions[nuberPositon].GetComponent<TargetEmpty>().IsEmpty = false; // при скрытие в испекторе таргетов происходит наложение клиентов на 2 позицию, возможный фикс это удаление родительского обьекта, либо сокращение ссылки до скрипта
-    }
+    #region ”далить клиента
     IEnumerator CoroutineClientDestroy(float timer)
     {
         textMesh.text = dialogs.dialog[0].textNPC.Trim();
         yield return new WaitForSeconds(timer);
         textMesh.ClearMesh();
-        positions[nuberPositon].GetComponent<TargetEmpty>().IsEmpty = true; // ќсвободить место
+        rp.positions[rp.nuberPositon].GetComponent<TargetEmpty>().IsEmpty = true; // ќсвободить место
         statePositon = StatePositon.exitTheBar;
     }
+    #endregion
     IEnumerator CoroutineDialogsStart()
     {
-        print("–аботаем");
         bool theend = false;
         int id = 0;
         while (!theend)
         {
             textMesh.text = dialogs.dialog[id].textNPC.Trim();
-            CreateTextChoise(id);
+            ChoiseSelect.CreateTextChoise(id,dialogs);
             yield return new WaitUntil(() => Input.GetKeyUp(KeyCode.F));
             yield return null;//дл€ того чтобы изменение состо€ни€ кнопки произошло
-            if (dialogs.dialog[id].choise[selected].theEnd)
+            if (dialogs.dialog[id].choise[ChoiseSelect.selected].theEnd)
                 theend = true;
             else
-                id = dialogs.dialog[id].choise[selected].gotoID;
-            ChoiseClear();
+                id = dialogs.dialog[id].choise[ChoiseSelect.selected].gotoID;
+            ChoiseSelect.ChoiseClear();
             textMesh.ClearMesh();
         }
-        positions[nuberPositon].GetComponent<TargetEmpty>().IsEmpty = true; // ќсвободить место
+        rp.positions[rp.nuberPositon].GetComponent<TargetEmpty>().IsEmpty = true; // ќсвободить место
         statePositon = StatePositon.exitTheBar;
     }
-    void canvasLockAt()// перенести в канвас код
-    {
-        canvasTransform.transform.LookAt(cameraTransform);
-        canvasTransform.Rotate(0, 180, 0);
-    }
-    void CreateTextChoise(int id)
-    {
-        lengthforSelection = dialogs.dialog[id].choise.Length;
-        for (int i = 0; i < lengthforSelection; i++)
-        {
-            if (i == 0)
-                tmps.Add(Instantiate<TextMeshProUGUI>(gameobjecttmp, new Vector3(originForChoises.transform.position.x, originForChoises.transform.position.y + step, originForChoises.transform.position.z), Quaternion.identity, originForChoises));
-            else
-                tmps.Add(Instantiate<TextMeshProUGUI>(gameobjecttmp, new Vector3(tmps[i - 1].transform.position.x, tmps[i - 1].transform.position.y + step, tmps[i - 1].transform.position.z), Quaternion.identity, originForChoises));
-            tmps[i].text = dialogs.dialog[id].choise[i].Value.Trim(); 
-        }
-        ableToSelect = true;
-    }
-    void ChoiseClear()
-    {
-        selecredprevios = 0;
-        selected = 0;
-        foreach (var tmpsone in tmps)
-        {
-            Destroy(tmpsone.gameObject);
-        }
-        tmps.Clear();
-        ableToSelect = false;
-    }
-    void Selection() // рассчЄт значение селекта
-    {
-        if (ableToSelect)
-        {
-            selecredprevios = selected;//debug
+    #region “еперь в ChoiseSelect
+    //void CreateTextChoise(int id)
+    //{
+    //    lengthforSelection = dialogs.dialog[id].choise.Length;
+    //    for (int i = 0; i < lengthforSelection; i++)
+    //    {
+    //        if (i == 0)
+    //            tmps.Add(Instantiate<TextMeshProUGUI>(gameobjecttmp, new Vector3(originForChoises.transform.position.x, originForChoises.transform.position.y + step, originForChoises.transform.position.z), Quaternion.identity, originForChoises));
+    //        else
+    //            tmps.Add(Instantiate<TextMeshProUGUI>(gameobjecttmp, new Vector3(tmps[i - 1].transform.position.x, tmps[i - 1].transform.position.y + step, tmps[i - 1].transform.position.z), Quaternion.identity, originForChoises));
+    //        tmps[i].text = dialogs.dialog[id].choise[i].Value.Trim(); 
+    //    }
+    //    ableToSelect = true;
+    //}
+    //void ChoiseClear()
+    //{
+    //    selecredprevios = 0;
+    //    selected = 0;
+    //    foreach (var tmpsone in tmps)
+    //    {
+    //        Destroy(tmpsone.gameObject);
+    //    }
+    //    tmps.Clear();
+    //    ableToSelect = false;
+    //}
+    //void Selection() // рассчЄт значение селекта
+    //{
+    //    if (ableToSelect)
+    //    {
+    //        selecredprevios = selected;//debug
 
-            int selectClamp = selected;
-            if (Input.mouseScrollDelta.y == -1) // рассчЄт селекта
-                selectClamp--;
-            else if (Input.mouseScrollDelta.y == 1)
-                selectClamp++;
+    //        int selectClamp = selected;
+    //        if (Input.mouseScrollDelta.y == -1) // рассчЄт селекта
+    //            selectClamp--;
+    //        else if (Input.mouseScrollDelta.y == 1)
+    //            selectClamp++;
 
-            if (selectClamp >= lengthforSelection)
-                selected = 0;
-            else if (selectClamp < 0)
-                selected = lengthforSelection-1;
-            else
-                selected = selectClamp;
+    //        if (selectClamp >= lengthforSelection)
+    //            selected = 0;
+    //        else if (selectClamp < 0)
+    //            selected = lengthforSelection - 1;
+    //        else
+    //            selected = selectClamp;
 
-            if (selecredprevios != selected)//отоброжение селекта
-            {
-                print(selected);
-                tmps[selecredprevios].alignment = TextAlignmentOptions.Center;
-                tmps[selected].alignment = TextAlignmentOptions.Left;
-            }
-        }
-    }
+    //        if (selecredprevios != selected)//отоброжение селекта
+    //        {
+    //            print(selected);
+    //            tmps[selecredprevios].alignment = TextAlignmentOptions.Center;
+    //            tmps[selected].alignment = TextAlignmentOptions.Left;
+    //        }
+    //    }
+    //}
+    #endregion
+    #region  ак работать с диалогами
     void dialogShow()
     {
         for (int i = 0; i <= dialogs.dialog.Length - 1; i++)
@@ -188,4 +152,5 @@ public class DialogsRuner : MonoBehaviour
             }
         }
     }
+    #endregion
 }

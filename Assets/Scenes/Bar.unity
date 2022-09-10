@@ -569,7 +569,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 620163471}
-  - component: {fileID: 620163472}
+  - component: {fileID: 620163473}
   m_Layer: 5
   m_Name: Origin
   m_TagString: Origin
@@ -597,19 +597,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -253.7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &620163472
+--- !u!114 &620163473
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 620163470}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f9ebed9400184a4389709da50ef92b3, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ac52fce028bb1d4283a300c7c2dff67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gameobjecttmp: {fileID: 7121587042616547491, guid: 2791c5902589d424fa48158c689922db, type: 3}
+  selected: 0
+  selecredprevios: 0
   step: 50
 --- !u!4 &622328437 stripped
 Transform:
