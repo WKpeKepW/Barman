@@ -32,7 +32,7 @@ public class DialogsRuner : MonoBehaviour
 
     void TargetMove()
     {
-        client.SetDestination(rp.positions[rp.nuberPositon].transform.position); // идти до места 
+        client.SetDestination(rp.positions[rp.nuberPositon].transform.position); // идти до места //вызывает ошибку нул референс
         if (Vector3.Distance(transform.position, rp.positions[rp.nuberPositon].transform.position) < fixDistantstoTheTarget)
         {
             if (statePositon == StatePositon.enterBar) // при позиции 1 он сначало идёт к нему а потом к другой позиции
