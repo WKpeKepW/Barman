@@ -118,7 +118,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  fixDistantstoTheTarget: 1.06
+  fixDistantstoTheTarget: 1.2
 --- !u!195 &2099059147
 NavMeshAgent:
   m_ObjectHideFlags: 0

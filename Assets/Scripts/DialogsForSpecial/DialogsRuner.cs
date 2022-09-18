@@ -4,68 +4,61 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class DialogsRuner : MonoBehaviour
+public class DialogsRuner : ClientMove
 {
-    enum StatePositon { enterBar, goBarTable, atTheBarTable, exitTheBar }
-    StatePositon statePositon; // меняться // целевая позиция
     dialogs dialogs; // говорить
-    NavMeshAgent client; //ходить
     TextMeshProUGUI textMesh; // показывать над клиентом
-    public float fixDistantstoTheTarget = 1.06f;// минимальное расстояние до цели
     ChoiseSelect ChoiseSelect;
-    RandomPlace rp;
-    void Start()
+    bool theend = false;
+    protected override void Start()
     {
         ChoiseSelect = GameObject.FindGameObjectWithTag("Origin").GetComponent<ChoiseSelect>();
-        rp = new RandomPlace();
         dialogs = XmlDialogsReader.LoadXMLData("DialogsRunner");//прочитываем файл DialogsRunner
-        client = GetComponent<NavMeshAgent>();//навигация клиента
         textMesh = transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();//получение ссылки на текст для клиента
-        statePositon = StatePositon.enterBar;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        TargetMove();
-    }
+    //void Update()
+    //{
+    //    TargetMove();
+    //}
 
-    void TargetMove()
-    {
-        client.SetDestination(rp.positions[rp.nuberPositon].transform.position); // идти до места //вызывает ошибку нул референс
-        if (Vector3.Distance(transform.position, rp.positions[rp.nuberPositon].transform.position) < fixDistantstoTheTarget)
-        {
-            if (statePositon == StatePositon.enterBar) // при позиции 1 он сначало идёт к нему а потом к другой позиции
-            {
-                statePositon = StatePositon.goBarTable;
-                rp.RandomEmptyPosition(1, 4);
-            }
-            else if (statePositon == StatePositon.goBarTable)
-            {
-                statePositon = StatePositon.atTheBarTable;
-                StartCoroutine(CoroutineDialogsStart());
+    //void TargetMove()
+    //{
+    //    client.SetDestination(rp.positions[nuberPositon].transform.position); // идти до места //вызывает ошибку нул референс
+    //    if (Vector3.Distance(transform.position, rp.positions[nuberPositon].transform.position) < fixDistantstoTheTarget)
+    //    {
+    //        if (statePositon == StatePositon.enterBar) // при позиции 1 он сначало идёт к нему а потом к другой позиции
+    //        {
+    //            statePositon = StatePositon.goBarTable;
+    //            rp.RandomEmptyPosition(1, 4, out nuberPositon);
+    //        }
+    //        else if (statePositon == StatePositon.goBarTable)
+    //        {
+    //            statePositon = StatePositon.atTheBarTable;
+    //            StartCoroutine(CoroutineDialogsStart());
 
-            }
-            else if (statePositon == StatePositon.exitTheBar)
-            {
-                rp.nuberPositon = 0;
-            }
-        }
-    }
-    #region Удалить клиента
-    IEnumerator CoroutineClientDestroy(float timer)
+    //        }
+    //        else if (statePositon == StatePositon.exitTheBar)
+    //        {
+    //            nuberPositon = 0;
+    //        }
+    //    }
+    //}
+    //#region Удалить клиента
+    //IEnumerator CoroutineClientDestroy(float timer)
+    //{
+    //    textMesh.text = dialogs.dialog[0].textNPC.Trim();
+    //    yield return new WaitForSeconds(timer);
+    //    textMesh.ClearMesh();
+    //    rp.positions[nuberPositon].GetComponent<TargetEmpty>().IsEmpty = true; // Освободить место
+    //    statePositon = StatePositon.exitTheBar;
+    //}
+    //#endregion
+    protected override IEnumerator CoroutineClient(float timer)
     {
-        textMesh.text = dialogs.dialog[0].textNPC.Trim();
-        yield return new WaitForSeconds(timer);
-        textMesh.ClearMesh();
-        rp.positions[rp.nuberPositon].GetComponent<TargetEmpty>().IsEmpty = true; // Освободить место
-        statePositon = StatePositon.exitTheBar;
-    }
-    #endregion
-    IEnumerator CoroutineDialogsStart()
-    {
-        bool theend = false;
         int id = 0;
+        bool freshend = false;//костыль чтобы клиент не ждал после диалога у бара
         while (!theend)
         {
             textMesh.text = dialogs.dialog[id].textNPC.Trim();
@@ -73,14 +66,19 @@ public class DialogsRuner : MonoBehaviour
             yield return new WaitUntil(() => Input.GetKeyUp(KeyCode.F));
             yield return null;//для того чтобы изменение состояния кнопки произошло
             if (dialogs.dialog[id].choise[ChoiseSelect.selected].theEnd)
+            {
                 theend = true;
+                freshend = true;
+            }
             else
                 id = dialogs.dialog[id].choise[ChoiseSelect.selected].gotoID;
             ChoiseSelect.ChoiseClear();
             textMesh.ClearMesh();
         }
-        rp.positions[rp.nuberPositon].GetComponent<TargetEmpty>().IsEmpty = true; // Освободить место
-        statePositon = StatePositon.exitTheBar;
+        if(theend && !freshend)
+            yield return new WaitForSeconds(timer);
+        rp.positions[nuberPositon].GetComponent<TargetEmpty>().IsEmpty = true; // Освободить место
+        statePositon++;
     }
     #region Теперь в ChoiseSelect
     //void CreateTextChoise(int id)

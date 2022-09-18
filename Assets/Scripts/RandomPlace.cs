@@ -5,13 +5,12 @@ using UnityEngine;
 public class RandomPlace
 {
     public List<GameObject> positions; // список возможных положений 
-    public int nuberPositon = 0;
-    public RandomPlace()
+    public RandomPlace(List<GameObject> positions)
     {
-       positions = new List<GameObject>(GameObject.FindGameObjectsWithTag("Target"));
+       this.positions = positions;
     }
 
-    public void RandomEmptyPosition(int firstMayTargetID, int endMayTargetID)
+    public void RandomEmptyPosition(int firstMayTargetID, int endMayTargetID, out int nuberPosition)
     {
         List<int> id = new List<int>();
         for (int i = firstMayTargetID; i <= endMayTargetID; i++)
@@ -26,7 +25,8 @@ public class RandomPlace
             randPosition = Random.Range(id[0], id.Count);  //Что то не так с рандомом
         else
             randPosition = id[0];
-        nuberPositon = randPosition; //positions.IndexOf(positions[randPosition]);
-        positions[nuberPositon].GetComponent<TargetEmpty>().IsEmpty = false; // при скрытие в испекторе таргетов происходит наложение клиентов на 2 позицию, возможный фикс это удаление родительского обьекта, либо сокращение ссылки до скрипта
+        nuberPosition = randPosition; //positions.IndexOf(positions[randPosition]);
+        positions[nuberPosition].GetComponent<TargetEmpty>().IsEmpty = false;
+        // при скрытие в испекторе таргетов происходит наложение клиентов на 2 позицию, возможный фикс это удаление родительского обьекта, либо сокращение ссылки до скрипта
     }
 }
