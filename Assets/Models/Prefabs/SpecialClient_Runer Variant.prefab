@@ -75,4 +75,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   positions: []
-  fixDistantstoTheTarget: 1.06
+  fixDistantstoTheTarget: 1.36
