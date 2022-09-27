@@ -10,8 +10,10 @@ public class MovePlayer : MonoBehaviour
     float _mouseX, _mouseY;
     [SerializeField] Transform CamTransform;
     [SerializeField] Vector3 CamOffset;
+    CharacterController _characterController;
     void Start()
     {
+        _characterController = GetComponent<CharacterController>();
         _rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -19,7 +21,8 @@ public class MovePlayer : MonoBehaviour
 
     void Update()
     {
-        TrueMove();
+        //TrueMove();
+        CharacterControll();
     }
     void LateUpdate()
     {
@@ -40,5 +43,9 @@ public class MovePlayer : MonoBehaviour
         CamTransform.localEulerAngles = new Vector3(-_mouseY, _mouseX);
         transform.localEulerAngles = new Vector3(0, _mouseX);
         CamTransform.position = transform.position + CamOffset;
+    }
+    void CharacterControll()
+    {
+        _characterController.Move(transform.TransformDirection(Input.GetAxis("Horizontal")* speed* Time.deltaTime,0, Input.GetAxis("Vertical")* speed * Time.deltaTime));
     }
 }
