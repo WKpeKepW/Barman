@@ -11,6 +11,7 @@ public class MovePlayer : MonoBehaviour
     [SerializeField] Transform CamTransform;
     [SerializeField] Vector3 CamOffset;
     CharacterController _characterController;
+    bool isCrouch=false;
     void Start()
     {
         _characterController = GetComponent<CharacterController>();
@@ -23,11 +24,36 @@ public class MovePlayer : MonoBehaviour
     {
         //TrueMove();
         CharacterControll();
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            Crouch();
+        }
     }
     void LateUpdate()
     {
         CameraFirstPerson();
     }
+
+    void CharacterControll()
+    {
+        _characterController.Move(transform.TransformDirection(Input.GetAxis("Horizontal") * speed * Time.deltaTime, 0, Input.GetAxis("Vertical") * speed * Time.deltaTime));
+    }
+    void Crouch()
+    {
+        isCrouch = !isCrouch;
+        if (isCrouch)
+        {
+            speed = speed / 2;
+            transform.position = new Vector3(transform.position.x, transform.position.y / 2, transform.position.z);
+        }
+        if (!isCrouch)
+        {
+            speed = speed * 2;
+            transform.position = new Vector3(transform.position.x, transform.position.y * 2, transform.position.z);
+        }
+    }
+
+
     void TrueMove()
     {
         Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
@@ -44,8 +70,5 @@ public class MovePlayer : MonoBehaviour
         transform.localEulerAngles = new Vector3(0, _mouseX);
         CamTransform.position = transform.position + CamOffset;
     }
-    void CharacterControll()
-    {
-        _characterController.Move(transform.TransformDirection(Input.GetAxis("Horizontal")* speed* Time.deltaTime,0, Input.GetAxis("Vertical")* speed * Time.deltaTime));
-    }
+
 }

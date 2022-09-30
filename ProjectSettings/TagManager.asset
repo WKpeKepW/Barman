@@ -7,6 +7,8 @@ TagManager:
   - Target
   - Origin
   - Item
+  - CocaCola
+  - Rum
   layers:
   - Default
   - TransparentFX

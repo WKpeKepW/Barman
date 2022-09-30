@@ -6,6 +6,7 @@ public class Destructible : MonoBehaviour
 {
     public GameObject parts;
     Rigidbody body;
+    bool isbroken = false;
     public float magnitudeDestroy = 3;
     // Start is called before the first frame update
     void Awake()
@@ -14,8 +15,11 @@ public class Destructible : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (body.velocity.magnitude > magnitudeDestroy)
+        if (body.velocity.magnitude > magnitudeDestroy && !isbroken)
+        {
+            isbroken = true;
             destroy();
+        }
     }
     void destroy()
     {
