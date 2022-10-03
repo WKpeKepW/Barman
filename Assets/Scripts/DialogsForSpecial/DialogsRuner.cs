@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,7 +14,12 @@ public class DialogsRuner : ClientMove
     protected override void Start()
     {
         ChoiseSelect = GameObject.FindGameObjectWithTag("Origin").GetComponent<ChoiseSelect>();
-        dialogs = XmlDialogsReader.LoadXMLData("DialogsRunner");//прочитываем файл DialogsRunner
+        try
+        {
+            dialogs = XmlDialogsReader.LoadXMLData("DialogsRunner");//прочитываем файл DialogsRunner
+        }
+        catch (Exception e)
+        { ChoiseSelect.DebugShowChange(e.ToString()); }
         textMesh = transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();//получение ссылки на текст для клиента
     }
 
@@ -57,6 +63,7 @@ public class DialogsRuner : ClientMove
     //#endregion
     protected override IEnumerator CoroutineClient(float timer)
     {
+        ChoiseSelect.DebugShowChange("Corutine работает");
         int id = 0;
         bool freshend = false;//костыль чтобы клиент не ждал после диалога у бара
         while (!theend)
@@ -77,7 +84,7 @@ public class DialogsRuner : ClientMove
         }
         if(theend && !freshend)
             yield return new WaitForSeconds(timer);
-        rp.positions[nuberPositon].GetComponent<TargetEmpty>().IsEmpty = true; // Освободить место
+        positions[nuberPositon].GetComponent<TargetEmpty>().IsEmpty = true; // Освободить место
         statePositon++;
     }
     #region Теперь в ChoiseSelect

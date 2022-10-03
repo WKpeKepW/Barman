@@ -8,11 +8,12 @@ public class XmlDialogsReader : MonoBehaviour
     //public string dialogToLoad;
     public static dialogs LoadXMLData(string dialogToLoad)
     {
-        string path = $"{Application.dataPath}/Data/{dialogToLoad}.xml";
+        string path = $"{Application.dataPath}/StreamingAssets/Data/{dialogToLoad}.xml";
         XmlSerializer serializer = new XmlSerializer(typeof(dialogs));
         StreamReader reader = new StreamReader(path);
         dialogs deserialized = (dialogs)serializer.Deserialize(reader.BaseStream);
-        reader.Close();
+        reader.Close(); // использовать using
+        ChoiseSelect.DebugShowChange("Reader работает");
         return deserialized;
     }
 }

@@ -9,6 +9,7 @@ TagManager:
   - Item
   - CocaCola
   - Rum
+  - Debug
   layers:
   - Default
   - TransparentFX

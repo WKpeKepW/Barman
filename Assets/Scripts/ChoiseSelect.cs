@@ -6,16 +6,23 @@ using TMPro;
 public class ChoiseSelect : MonoBehaviour
 {
     public TextMeshProUGUI gameobjecttmp;// пример обьекта текста для создания других текстов
+    public static TextMeshProUGUI debugShow;// для дебага 
     List<TextMeshProUGUI> tmps;// лист выборов
     [HideInInspector] public int selected, selecredprevios = 0;// выбор вариантов
     public float step = 50f;
     bool ableToSelect = false;
     int lengthforSelection = 0;
+    static List<string> Debugstring;
 
     // Start is called before the first frame update
-    void Start()
+    
+    void Awake()
     {
+        Debugstring = new List<string>();
+        //debugShow = GetComponentInParent<Transform>().gameObject.transform.Find("DebugWindow").gameObject.GetComponent<TextMeshProUGUI>();
+        debugShow = GameObject.FindGameObjectWithTag("Debug").GetComponent<TextMeshProUGUI>();
         tmps = new List<TextMeshProUGUI>();//лист выбора
+        
     }
 
     // Update is called once per frame
@@ -24,6 +31,15 @@ public class ChoiseSelect : MonoBehaviour
         Selection();
     }
 
+    public static void DebugShowChange(string text)
+    {
+        //debugShow.ClearMesh();
+        if (!Debugstring.Contains(text))
+        {
+            Debugstring.Add(text);
+            debugShow.text += text + ", ";
+        }
+    }
     public void CreateTextChoise(int id, dialogs dialogs)
     {
         lengthforSelection = dialogs.dialog[id].choise.Length;
