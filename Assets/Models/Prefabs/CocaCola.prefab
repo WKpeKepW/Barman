@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 3400785279703764431}
   - component: {fileID: 7588971639665936970}
   - component: {fileID: 4723224422739007947}
+  - component: {fileID: 2739185843602320060}
+  - component: {fileID: 8796301653508558300}
   m_Layer: 6
-  m_Name: beerbottle
+  m_Name: CocaCola
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,6 +34,7 @@ Transform:
   m_Children:
   - {fileID: 1326293578987261740}
   - {fileID: 965606045986487469}
+  - {fileID: 1670761466489146680}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -65,6 +68,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2739185843602320060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6469947576323330718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a657da11b9ba374f91a833f2fa4bfec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimeCapacity: 15
+  isEmpty: 1
+--- !u!114 &8796301653508558300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6469947576323330718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2e62276d7f1dbe40932d714014a1de0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parts: {fileID: 2567040449031100256, guid: 59c354f3edbc34345bbcfac515afa605, type: 3}
+  magnitudeDestroy: 3
 --- !u!1 &7993835774980645243
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,3 +262,65 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1001 &1961023516239268081
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3400785279703764431}
+    m_Modifications:
+    - target: {fileID: 871808044485182921, guid: a207ea38e0413324999de000e715a33d, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 871808044485182921, guid: a207ea38e0413324999de000e715a33d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0002
+      objectReference: {fileID: 0}
+    - target: {fileID: 871808044485182921, guid: a207ea38e0413324999de000e715a33d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.2066
+      objectReference: {fileID: 0}
+    - target: {fileID: 871808044485182921, guid: a207ea38e0413324999de000e715a33d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0009999275
+      objectReference: {fileID: 0}
+    - target: {fileID: 871808044485182921, guid: a207ea38e0413324999de000e715a33d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 871808044485182921, guid: a207ea38e0413324999de000e715a33d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 871808044485182921, guid: a207ea38e0413324999de000e715a33d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 871808044485182921, guid: a207ea38e0413324999de000e715a33d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 871808044485182921, guid: a207ea38e0413324999de000e715a33d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 871808044485182921, guid: a207ea38e0413324999de000e715a33d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 871808044485182921, guid: a207ea38e0413324999de000e715a33d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542150707476439627, guid: a207ea38e0413324999de000e715a33d, type: 3}
+      propertyPath: m_Name
+      value: CocaCola
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a207ea38e0413324999de000e715a33d, type: 3}
+--- !u!4 &1670761466489146680 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 871808044485182921, guid: a207ea38e0413324999de000e715a33d, type: 3}
+  m_PrefabInstance: {fileID: 1961023516239268081}
+  m_PrefabAsset: {fileID: 0}

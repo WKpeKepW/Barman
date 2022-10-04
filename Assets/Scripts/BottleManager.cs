@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class BottleManager : MonoBehaviour
 {
@@ -8,21 +9,41 @@ public class BottleManager : MonoBehaviour
     ParticleSystem particle;
     public float TimeCapacity = 3f;
     float currentCapacity = 0f;
+    public bool isEmpty = true;
     void Start()
     {
-        cap = transform.Find("Cap").gameObject;
-        particle = transform.Find("Water").gameObject.GetComponent<ParticleSystem>();
+        FindAndOpen();
     }
-
+    public void FindAndOpen()
+    {
+        cap = transform.Find("Cap").gameObject;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).tag == "fluid")
+            {
+                particle = transform.GetChild(i).GetComponent<ParticleSystem>();
+                isEmpty = false;
+                break;
+            }
+        }
+    }
     // Update is called once per frame
     void LateUpdate()
     {
-        outPour();
+        if(!isEmpty)
+            outPour();
+        if (currentCapacity >= TimeCapacity && !isEmpty)
+            DestroyFluid();
     }
 
+    public void DestroyFluid()
+    {
+        isEmpty = true;
+        Destroy(particle.gameObject);
+    }
     void outPour()
     {
-        if (!cap.gameObject.activeSelf && currentCapacity/300 <= TimeCapacity)
+        if (!cap.gameObject.activeSelf)
         {
            // if (Mathf.Abs(transform.localEulerAngles.z) >= 90 || Mathf.Abs(transform.localEulerAngles.x) >= 90)
            if(!(transform.localEulerAngles.z < 90 || transform.localEulerAngles.z > 275)|| !(transform.localEulerAngles.x < 110 || transform.localEulerAngles.x > 250)) //|| transform.localEulerAngles.x < -90 && transform.localEulerAngles.x > 90)
@@ -30,7 +51,7 @@ public class BottleManager : MonoBehaviour
                 
                 if (!particle.isEmitting)
                     particle.Play();
-                currentCapacity += Time.fixedTime;
+                currentCapacity += Time.deltaTime;
             }
             else if (particle.isEmitting)
                 particle.Stop();

@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MovePlayer : MonoBehaviour
 {
@@ -11,7 +10,7 @@ public class MovePlayer : MonoBehaviour
     [SerializeField] Transform CamTransform;
     [SerializeField] Vector3 CamOffset;
     CharacterController _characterController;
-    bool isCrouch=false;
+    bool isCrouch = false;
     void Start()
     {
         _characterController = GetComponent<CharacterController>();
@@ -19,48 +18,21 @@ public class MovePlayer : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-
+    void LateUpdate()
+    {
+        CameraFirstPerson();
+    }
     void Update()
     {
         //TrueMove();
         CharacterControll();
         if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
             Crouch();
-        }
+        if (Input.GetKeyDown(KeyCode.F1))
+            Restart();
     }
-    void LateUpdate()
-    {
-        CameraFirstPerson();
-    }
-
-    void CharacterControll()
-    {
-        _characterController.Move(transform.TransformDirection(Input.GetAxis("Horizontal") * speed * Time.deltaTime, 0, Input.GetAxis("Vertical") * speed * Time.deltaTime));
-    }
-    void Crouch()
-    {
-        isCrouch = !isCrouch;
-        if (isCrouch)
-        {
-            speed = speed / 2;
-            transform.position = new Vector3(transform.position.x, transform.position.y / 2, transform.position.z);
-        }
-        if (!isCrouch)
-        {
-            speed = speed * 2;
-            transform.position = new Vector3(transform.position.x, transform.position.y * 2, transform.position.z);
-        }
-    }
-
-
-    void TrueMove()
-    {
-        Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        targetVelocity *= speed * Time.deltaTime;
-        Vector3 velocityChange = targetVelocity - transform.InverseTransformDirection(_rb.velocity);
-        _rb.AddRelativeForce(velocityChange);
-    }
+    void Restart() => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    void CharacterControll() => _characterController.Move(transform.TransformDirection(Input.GetAxis("Horizontal") * speed * Time.deltaTime, 0, Input.GetAxis("Vertical") * speed * Time.deltaTime));
     void CameraFirstPerson()
     {
         _mouseX += Input.GetAxis("Mouse X") * sensetive;
@@ -71,4 +43,27 @@ public class MovePlayer : MonoBehaviour
         CamTransform.position = transform.position + CamOffset;
     }
 
+    void Crouch()
+    {
+        isCrouch = !isCrouch;
+        if (isCrouch)
+        {
+            speed = speed / 2;
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y - 0.5f, transform.localScale.z);
+            CamOffset = new Vector3(0, CamOffset.y - 0.5f, 0);
+        }
+        if (!isCrouch)
+        {
+            speed = speed * 2;
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y + 0.5f, transform.localScale.z);
+            CamOffset = new Vector3(0, CamOffset.y + 0.5f, 0);
+        }
+    }
+    void TrueMove()
+    {
+        Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        targetVelocity *= speed * Time.deltaTime;
+        Vector3 velocityChange = targetVelocity - transform.InverseTransformDirection(_rb.velocity);
+        _rb.AddRelativeForce(velocityChange);
+    }
 }

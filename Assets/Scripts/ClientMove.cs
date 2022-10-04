@@ -20,12 +20,11 @@ public class ClientMove : MonoBehaviour
         rp = new RandomPlace();
         client = GetComponent<NavMeshAgent>();
         statePositon = StatePositon.enterBar;
-        ChoiseSelect.DebugShowChange($"Количество позиций: {positions.Count.ToString()}");
     }
 
     protected virtual void Start()
     {
-       
+        ChoiseSelect.DebugShowChange($"Количество позиций: {positions.Count.ToString()}");
     }
 
     // Update is called once per frame
