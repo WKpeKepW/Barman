@@ -8,6 +8,7 @@ public class Take : MonoBehaviour
     bool isL_HandBusy = false, isR_HandBusy = false;
     bool isModifyHandon = false;
     bool isBottle_L_Open = false, isBottle_R_Open = false;
+    bool isGunHand = false;
     void Start()
     {
         Cam = GameObject.FindGameObjectWithTag("MainCamera");
@@ -19,8 +20,10 @@ public class Take : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isGunHand)
             PickUp(ref isL_HandBusy, L_hand, ref L_item);
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && isGunHand)
+            R_item.GetComponent<Shoot>().ActionShoot();
         if (Input.GetKeyDown(KeyCode.Mouse1))
             PickUp(ref isR_HandBusy, R_hand, ref R_item);
         if (Input.GetKeyDown(KeyCode.R))
@@ -51,27 +54,49 @@ public class Take : MonoBehaviour
         RaycastHit hit;
         if (handbusy)
             Drop(ref handbusy, ref item);
+
         if (Physics.Raycast(Cam.transform.position, Cam.transform.forward, out hit, distansTake, LayerMask.GetMask("Items")))
         {
-            item = hit.transform.gameObject;
-            item.GetComponent<Rigidbody>().isKinematic = true;
-            item.transform.parent = hand.transform;
-            //if(item.GetComponent<Collider>() != null)
+            
+            if (hit.transform.gameObject.tag == "Gun")
+            {
+                R_item = hit.transform.gameObject;
+                R_item.transform.parent = R_hand.transform;
+                R_item.GetComponent<Rigidbody>().isKinematic = true;
+                R_item.GetComponent<ShotgunManager>().CollidersOn(false);
+                R_item.transform.localPosition = Vector3.zero;
+                R_item.transform.localRotation = Quaternion.identity;
+                isR_HandBusy = true;
+                isGunHand = true;
+            }
+            else
+            {
+                item = hit.transform.gameObject;
+                item.transform.parent = hand.transform;
+                item.GetComponent<Rigidbody>().isKinematic = true;
+                //if(item.GetComponent<Collider>() != null)
                 item.GetComponent<Collider>().enabled = false;
-            item.transform.localPosition = Vector3.zero;
-            item.transform.localRotation = Quaternion.identity;
-            handbusy = true;
+                item.transform.localPosition = Vector3.zero;
+                item.transform.localRotation = Quaternion.identity;
+                handbusy = true;
+            }
+            
         }
     }
     void Drop(ref bool handbusy, ref GameObject item)
     {
         item.transform.parent = null;
-        //if (item.GetComponent<Collider>() != null)
+        if (isGunHand)
+        {
+            item.GetComponent<ShotgunManager>().CollidersOn(true);
+            isGunHand = false;
+        }
+        else
             item.GetComponent<Collider>().enabled = true;
         item.GetComponent<Rigidbody>().isKinematic = false;
         handbusy = false;
         if (!isModifyHandon)
-            item.GetComponent<Rigidbody>().AddForce(Cam.transform.TransformDirection(0,0,6),ForceMode.Impulse);// для кидания бутылок
+            item.GetComponent<Rigidbody>().AddForce(Cam.transform.TransformDirection(0, 0, 6), ForceMode.Impulse);// для кидания бутылок
         item = null;
     }
     void RotateItem(ref GameObject item)
@@ -133,5 +158,4 @@ public class Take : MonoBehaviour
             isBottle_R_Open = !isBottle_R_Open;
         }
     }
-
 }

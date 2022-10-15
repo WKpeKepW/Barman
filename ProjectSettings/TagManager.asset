@@ -11,6 +11,7 @@ TagManager:
   - Rum
   - Debug
   - fluid
+  - Gun
   layers:
   - Default
   - TransparentFX
