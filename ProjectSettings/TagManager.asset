@@ -12,6 +12,7 @@ TagManager:
   - Debug
   - fluid
   - Gun
+  - Ammo
   layers:
   - Default
   - TransparentFX

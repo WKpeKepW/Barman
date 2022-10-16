@@ -261,6 +261,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 6615772230139288781, guid: 37302fc027946224c885fb88f024548f, type: 3}
+  crosshairpefab: {fileID: 6615772230139288781, guid: 688e3dc3e51a4b1418a5053bcf00e3ed, type: 3}
+  isActive: 0
 --- !u!1 &9062386279933726141
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,16 +18,16 @@ public class Destructible : MonoBehaviour
         if (body.velocity.magnitude > magnitudeDestroy && !isbroken)
         {
             isbroken = true;
-            destroy();
+            destroyItem(body.velocity);
         }
     }
-    void destroy()
+    public void destroyItem(Vector3 velocity)
     {
         Destroy(gameObject);
         GameObject obj = Instantiate(parts, transform.position,transform.rotation);
         for (int i = 0; i < obj.transform.childCount; i++)
         {
-            obj.transform.GetChild(i).gameObject.GetComponent<Rigidbody>().AddForce(body.velocity, ForceMode.Impulse);
+            obj.transform.GetChild(i).gameObject.GetComponent<Rigidbody>().AddForce(velocity, ForceMode.Impulse);
         }
     }
 }

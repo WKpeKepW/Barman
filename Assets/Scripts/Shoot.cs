@@ -1,30 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Shoot : MonoBehaviour
 {
-    public GameObject bulletPrefab;
-    GameObject spawn;
-    LineRenderer Lr;
+    public GameObject bulletPrefab, crosshairpefab;
+    GameObject spawn, crosshair;
     RaycastHit hit;
+    public bool isActive = false;
     // Start is called before the first frame update
     void Start()
     {
-        Lr = GetComponent<LineRenderer>();
         spawn = transform.Find("SpawnBullet").gameObject;
+        crosshair = Instantiate(crosshairpefab,transform.position,Quaternion.identity);
+        crosshair.SetActive(isActive);
     }
     private void Update()
     {
         Physics.Raycast(spawn.transform.position, spawn.transform.TransformDirection(0, 0, 100), out hit);
-        Lr.SetPosition(0, spawn.transform.position);
-        Lr.SetPosition(1, hit.point);
+        if (isActive)
+            VisibleCrossHair();
     }
     public void ActionShoot()
     {
         GameObject bullet;
         bullet = Instantiate(bulletPrefab, spawn.transform.position, Quaternion.identity);
-        bullet.GetComponent<Rigidbody>().AddForce(spawn.transform.TransformDirection(0,0,100), ForceMode.Impulse);
-       
-    }    
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        rb.AddForce(spawn.transform.TransformDirection(0, 0, 100), ForceMode.Impulse);
+        if (hit.rigidbody != null)
+        {
+            Vector3 velocity = spawn.transform.TransformDirection(Random.Range(0, 3), Random.Range(0, 3), 30);
+            hit.transform.GetComponent<Rigidbody>().AddForce(velocity, ForceMode.Impulse);
+            if (hit.transform.GetComponent<Destructible>() != null)
+                hit.transform.GetComponent<Destructible>().destroyItem(velocity);
+        }
+    }
+    void VisibleCrossHair()
+    {
+        if (hit.point != null)
+            crosshair.transform.position = hit.point;
+    }
+    public void SetActive()
+    {
+        isActive = !isActive;
+        crosshair.SetActive(isActive);
+    } 
 }
