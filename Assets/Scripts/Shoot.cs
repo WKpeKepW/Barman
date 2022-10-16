@@ -6,27 +6,25 @@ public class Shoot : MonoBehaviour
 {
     public GameObject bulletPrefab;
     GameObject spawn;
-    Transform cam;
-    List<GameObject> Bullets = new List<GameObject>();
+    LineRenderer Lr;
+    RaycastHit hit;
     // Start is called before the first frame update
     void Start()
     {
+        Lr = GetComponent<LineRenderer>();
         spawn = transform.Find("SpawnBullet").gameObject;
-        cam = GameObject.FindGameObjectWithTag("MainCamera").transform;
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (Bullets.Count >= 5)
-        {
-            Destroy(Bullets[0]);
-            Bullets.RemoveAt(0);
-        }
+        Physics.Raycast(spawn.transform.position, spawn.transform.TransformDirection(0, 0, 100), out hit);
+        Lr.SetPosition(0, spawn.transform.position);
+        Lr.SetPosition(1, hit.point);
     }
     public void ActionShoot()
     {
-        Bullets.Add(Instantiate(bulletPrefab, spawn.transform.position, Quaternion.identity));
-        Bullets[Bullets.Count - 1].GetComponent<Rigidbody>().AddForce(cam.TransformDirection(0, 0, 100), ForceMode.Impulse);
+        GameObject bullet;
+        bullet = Instantiate(bulletPrefab, spawn.transform.position, Quaternion.identity);
+        bullet.GetComponent<Rigidbody>().AddForce(spawn.transform.TransformDirection(0,0,100), ForceMode.Impulse);
+       
     }    
 }
