@@ -32,6 +32,8 @@ public class Shoot : MonoBehaviour
             if (hit.transform.GetComponent<Destructible>() != null)
                 hit.transform.GetComponent<Destructible>().destroyItem(velocity);
         }
+        if (hit.transform.tag == "Client")
+            hit.transform.GetComponent<DeathClient>().Death();
     }
     void VisibleCrossHair()
     {

@@ -87,6 +87,12 @@ public class DialogsRuner : ClientMove
         positions[nuberPositon].GetComponent<TargetEmpty>().IsEmpty = true; // Освободить место
         statePositon++;
     }
+    public new void Death()
+    {
+        ChoiseSelect.ChoiseClear();
+        textMesh.ClearMesh();
+        base.Death();
+    }
     #region Теперь в ChoiseSelect
     //void CreateTextChoise(int id)
     //{

@@ -14,18 +14,26 @@ public class BottleManager : MonoBehaviour
     {
         FindAndOpen();
     }
-    public void FindAndOpen()
+    public void FindAndOpen(ParticleSystem ps = null)
     {
         cap = transform.Find("Cap").gameObject;
-        for (int i = 0; i < transform.childCount; i++)
+        if (ps != null)
         {
-            if (transform.GetChild(i).tag == "fluid")
-            {
-                particle = transform.GetChild(i).GetComponent<ParticleSystem>();
-                isEmpty = false;
-                break;
-            }
+            particle = ps;
+            isEmpty = false;
         }
+        else
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                if (transform.GetChild(i).tag == "fluid")
+                {
+                    particle = transform.GetChild(i).GetComponent<ParticleSystem>();
+                    isEmpty = false;
+                    break;
+                }
+            }
+
+        
     }
     // Update is called once per frame
     void LateUpdate()

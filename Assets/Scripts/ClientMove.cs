@@ -83,4 +83,9 @@ public class ClientMove : MonoBehaviour
         positions[nuberPositon].GetComponent<TargetEmpty>().IsEmpty = true;
         statePositon++;// переключает состояние на следующее
     }
+    public void Death()
+    {
+        positions[nuberPositon].GetComponent<TargetEmpty>().IsEmpty = true;
+        Destroy(gameObject);
+    }
 }

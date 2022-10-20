@@ -13,6 +13,7 @@ TagManager:
   - fluid
   - Gun
   - Ammo
+  - Client
   layers:
   - Default
   - TransparentFX

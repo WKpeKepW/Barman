@@ -58,6 +58,6 @@ public class ShakerCrafter : MonoBehaviour
             currentCocatail = Instantiate(coctails[1], transform.TransformPoint(0, 0.1f, 0), Quaternion.identity, transform);
             print("toxic waste");
         }
-        bm.FindAndOpen();
+        bm.FindAndOpen(currentCocatail.GetComponent<ParticleSystem>());
     }
 }

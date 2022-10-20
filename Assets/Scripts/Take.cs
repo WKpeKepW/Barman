@@ -28,7 +28,7 @@ public class Take : MonoBehaviour
             PickUp(ref isL_HandBusy, L_hand, ref L_item);
         else if (Input.GetKeyDown(KeyCode.Mouse0) && isGunHand && !isReloading)//говно код дробовика
             R_item.GetComponent<ShotgunManager>().SendFire();//говно код дробовика
-        if (Input.GetKeyDown(KeyCode.R) && R_item != null)//говно код дробовика
+        if (Input.GetKeyDown(KeyCode.R) && R_item != null && isGunHand)//говно код дробовика
         {
             isReloading = !isReloading;//говно код дробовика
             GameObject obj = R_item.transform.Find("TOZ-B.012").gameObject;//говно код дробовика

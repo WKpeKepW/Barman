@@ -13,10 +13,11 @@ GameObject:
   - component: {fileID: 8404596018053934037}
   - component: {fileID: 6196086044862591265}
   - component: {fileID: 2099059146}
+  - component: {fileID: 6439388963823489503}
   - component: {fileID: 2099059147}
   m_Layer: 0
   m_Name: Client
-  m_TagString: Untagged
+  m_TagString: Client
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,13 +113,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d7bdec78da3e6749ba8f4bf226f5149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  positions:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   fixDistantstoTheTarget: 1.2
+--- !u!114 &6439388963823489503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4740393716356433655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f966ade9290a3b143bcab47f971cf6df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!195 &2099059147
 NavMeshAgent:
   m_ObjectHideFlags: 0
