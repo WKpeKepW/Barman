@@ -32,8 +32,7 @@ public class BottleManager : MonoBehaviour
                     break;
                 }
             }
-
-        
+        currentCapacity = 0;
     }
     // Update is called once per frame
     void LateUpdate()

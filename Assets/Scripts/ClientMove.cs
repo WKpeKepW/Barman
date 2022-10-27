@@ -8,10 +8,10 @@ public class ClientMove : MonoBehaviour
 {
     protected enum StatePositon { enterBar, goBarTable, atTheBarTable, goToWaitTable, atTheWaitTable, goExitTheBar, exitTheBar, readyToDie } // состояния по которым действует клиент
     protected StatePositon statePositon; // переменная для состояний
-    public static int nuberPositon = 0; // номер позиции к которой стремиться клиент 
+    public int nuberPositon = 0; // номер позиции к которой стремиться клиент 
     protected NavMeshAgent client;// переменная для хождения
     protected RandomPlace rp;//класс для определения рандомного места на котором можно посидеть
-    public static List<GameObject> positions;// перемменая для возмжных позиций на уровне
+    public List<GameObject> positions;// перемменая для возмжных позиций на уровне
     public float fixDistantstoTheTarget = 1.20f;//фиксированное расстояние которое определяет как близко должен дойти клиент до цели
     void Awake()
     {
@@ -40,7 +40,7 @@ public class ClientMove : MonoBehaviour
             {
                 case StatePositon.enterBar:
                     statePositon = StatePositon.goBarTable;// можно считать что мы обьявляем что клиент будет делать дальше
-                    rp.RandomEmptyPosition(1, 4);
+                    rp.RandomEmptyPosition(1, 4,ref nuberPositon,ref positions);
                     break;
                 case StatePositon.goBarTable:
                     statePositon = StatePositon.atTheBarTable;
@@ -48,7 +48,7 @@ public class ClientMove : MonoBehaviour
                     break;
                 case StatePositon.goToWaitTable:
                     statePositon = StatePositon.atTheWaitTable;
-                    rp.RandomEmptyPosition(5, 13);
+                    rp.RandomEmptyPosition(5, 13, ref nuberPositon, ref positions);
                     break;
                 case StatePositon.atTheWaitTable:
                     statePositon = StatePositon.goExitTheBar;

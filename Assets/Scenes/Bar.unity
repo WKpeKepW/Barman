@@ -1257,7 +1257,7 @@ GameObject:
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &73318770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16075,7 +16075,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4740393716356433655, guid: cec46928b77b1f04d852f412791f0bd7, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6801188777958478268, guid: cec46928b77b1f04d852f412791f0bd7, type: 3}
       propertyPath: m_RootOrder
@@ -38828,11 +38828,14 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0423\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435:\n\u041B\u041A\u041C-
     \u0411\u0440\u0430\u0442\u044C/\u0411\u0440\u0430\u0441\u0430\u0442\u044C/\u0417\u0430\u0440\u044F\u0436\u0430\u0442\u044C
-    \u043F\u0430\u0442\u0440\u043E\u043D\n\u041F\u041A\u041C- \u0411\u0440\u0430\u0442\u044C/\u0411\u0440\u0430\u0441\u0430\u0442\u044C\nQ,R-\u0412\u0440\u0430\u0449\u0430\u0442\u044C\nCapsLock-\u0421\u043D\u0438\u043C\u0430\u0442\u044C
+    \u043F\u0430\u0442\u0440\u043E\u043D\n\u041F\u041A\u041C- \u0411\u0440\u0430\u0442\u044C/\u0411\u0440\u0430\u0441\u0430\u0442\u044C\n\u0421\u041A\u041C-
+    \u041F\u0435\u0440\u0435\u043C\u0435\u0449\u0430\u0442\u044C\u0441\u044F \u043F\u043E
+    \u0434\u0438\u0430\u043B\u043E\u0433\u0430\u043C\nQ,E-\u0412\u0440\u0430\u0449\u0430\u0442\u044C\nCapsLock-\u0421\u043D\u0438\u043C\u0430\u0442\u044C
     \u043A\u0440\u044B\u0448\u043A\u0443 \u0441 \u0431\u0443\u0442\u044B\u043B\u043A\u0438\nTab-\u041C\u0435\u043D\u044F\u0442\u044C
     \u043F\u043E\u043B\u043E\u0436\u0435\u043D\u0438\u044F \u0440\u0443\u043A\nF-\u0412\u044B\u0431\u043E\u0440
     \u0434\u0438\u0430\u043B\u043E\u0433\u0430\nLCtrl-\u041F\u0440\u0438\u0441\u0435\u0441\u0442\u044C\nF1-\u041F\u0435\u0440\u0435\u0437\u0430\u043F\u0443\u0441\u0442\u0438\u0442\u044C
-    \u0441\u0446\u0435\u043D\u0443"
+    \u0441\u0446\u0435\u043D\u0443\nR-\u0412\u043B\u044E\u0447\u0438\u0442\u044C
+    \u0440\u0435\u0436\u0438\u043C \u043F\u0435\u0440\u0435\u0437\u0430\u0440\u044F\u0434\u043A\u0438"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -38859,8 +38862,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.35
-  m_fontSizeBase: 0.35
+  m_fontSize: 0.23
+  m_fontSizeBase: 0.23
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -38895,7 +38898,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -1.7048302, w: 0}
+  m_margin: {x: 0, y: 0, z: 0.4246832, w: 0.2016077}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -43132,7 +43135,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8567741039590202651, guid: 9b01911edecfb2b46b9205df8ddea8ba, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b01911edecfb2b46b9205df8ddea8ba, type: 3}
@@ -43500,6 +43503,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4674091594708734123, guid: 3e745c085719fa94782942c0553f4d7c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5140591755454638311, guid: 3e745c085719fa94782942c0553f4d7c, type: 3}
+      propertyPath: m_Interpolate
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5446652017075325457, guid: 3e745c085719fa94782942c0553f4d7c, type: 3}

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class RandomPlace
 {
-    public void RandomEmptyPosition(int firstMayTargetID, int endMayTargetID)
+    public void RandomEmptyPosition(int firstMayTargetID, int endMayTargetID, ref int number, ref List<GameObject> position)
     {
         ChoiseSelect.DebugShowChange("Random работает");
         List<int> id = new List<int>();
         for (int i = firstMayTargetID; i <= endMayTargetID; i++)
         {
-            if (ClientMove.positions[i].GetComponent<TargetEmpty>().IsEmpty)
+            if (position[i].GetComponent<TargetEmpty>().IsEmpty)
             {
                 id.Add(i);
             }
@@ -20,8 +20,8 @@ public class RandomPlace
             randPosition = Random.Range(id[0], id.Count);  //Что то не так с рандомом
         else
             randPosition = id[0];
-        ClientMove.nuberPositon = randPosition; //positions.IndexOf(positions[randPosition]);
-        ClientMove.positions[randPosition].GetComponent<TargetEmpty>().IsEmpty = false;
+        number = randPosition; //positions.IndexOf(positions[randPosition]);
+        position[randPosition].GetComponent<TargetEmpty>().IsEmpty = false;
         // при скрытие в испекторе таргетов происходит наложение клиентов на 2 позицию, возможный фикс это удаление родительского обьекта, либо сокращение ссылки до скрипта
     }
 }
